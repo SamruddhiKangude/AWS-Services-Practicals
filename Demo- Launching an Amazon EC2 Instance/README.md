@@ -57,6 +57,7 @@ Paste it into your browser
 🎉 You should see the Nginx welcome page — your web server is live!
 
 💡 Key Takeaways
+
 EC2 provides flexible compute capacity in the cloud
 User Data scripts automate server setup
 Security groups control inbound traffic
