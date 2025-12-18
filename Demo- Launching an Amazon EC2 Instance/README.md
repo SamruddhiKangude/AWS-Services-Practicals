@@ -40,12 +40,13 @@ This provides enough storage for basic web content
 Scroll to Advanced Details
 Under User Data, paste the script below to install and start Nginx:
 
+```
 #!/bin/bash
 yum update -y
 yum install nginx -y
 systemctl start nginx
 systemctl enable nginx
-
+```
 9️⃣ Launch the Instance
 Review all settings
 Click Launch Instance
