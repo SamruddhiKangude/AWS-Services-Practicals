@@ -1,135 +1,137 @@
-🌐 AWS VPC - Designing a Secure & Highly Available AWS VPC (Public & Private Subnets)
-🔍 Overview
+## 🌐 **AWS VPC - Designing a Secure & Highly Available AWS VPC (Public & Private Subnets)**
 
-This guide walks through creating a custom AWS VPC with:
+---
 
-Public & Private subnets
+## 🔍 Overview
 
-Multi-AZ high availability
+This guide walks through creating a **custom AWS VPC** with:
 
-Internet connectivity via Internet Gateway
+* Public & Private subnets
+* Multi-AZ high availability
+* Internet connectivity via Internet Gateway
+* Secure traffic control using routing
 
-Secure traffic control using routing
+All steps follow **AWS networking best practices**.
 
-All steps follow AWS networking best practices.
+---
 
-🟢 Step 1: Create a VPC
+## 🟢 Step 1: Create a VPC
 
-➡️ AWS Console → VPC
+➡️ AWS Console → **VPC**
 
-🔹 Resource: VPC only
+* 🔹 Resource: **VPC only**
+* 🔹 Name: `My VPC`
+* 🔹 IPv4 CIDR: `10.0.0.0/16`
+* ✅ Create VPC
 
-🔹 Name: My VPC
+📌 *This CIDR block defines the private IP range for all resources in the VPC.*
 
-🔹 IPv4 CIDR: 10.0.0.0/16
+---
 
-✅ Create VPC
+## 🔵 Step 2: Create Private Subnets
 
-📌 This CIDR block defines the private IP range for all resources in the VPC.
+🛡️ *Used for backend resources (no internet access)*
 
-🔵 Step 2: Create Private Subnets
+### 🔸 Private Subnet 1
 
-🛡️ Used for backend resources (no internet access)
+➡️ Subnets → **Create subnet**
 
-🔸 Private Subnet 1
+* VPC: `My VPC`
+* Name: `Private-subnet-1`
+* AZ: `us-east-1a`
+* CIDR: `10.0.1.0/24`
+* ❌ Auto-assign public IP **disabled**
 
-➡️ Subnets → Create subnet
+---
 
-VPC: My VPC
-
-Name: Private-subnet-1
-
-AZ: us-east-1a
-
-CIDR: 10.0.1.0/24
-
-❌ Auto-assign public IP disabled
-
-🔸 Private Subnet 2
+### 🔸 Private Subnet 2
 
 🔁 Repeat with:
 
-AZ: us-east-1b
+* AZ: `us-east-1b`
+* CIDR: `10.0.2.0/24`
 
-CIDR: 10.0.2.0/24
+---
 
-🟣 Step 3: Create Public Subnets
+## 🟣 Step 3: Create Public Subnets
 
-🌍 Used for internet-facing resources
+🌍 *Used for internet-facing resources*
 
-🔸 Public Subnet 1
+### 🔸 Public Subnet 1
 
 ➡️ Create subnet
 
-VPC: My VPC
+* VPC: `My VPC`
+* Name: `Public-subnet-1`
+* AZ: `us-east-1a`
+* CIDR: `10.0.3.0/24`
+* ✅ Enable auto-assign public IPv4
 
-Name: Public-subnet-1
+---
 
-AZ: us-east-1a
-
-CIDR: 10.0.3.0/24
-
-✅ Enable auto-assign public IPv4
-
-🔸 Public Subnet 2
+### 🔸 Public Subnet 2
 
 🔁 Repeat with:
 
-AZ: us-east-1b
+* AZ: `us-east-1b`
+* CIDR: `10.0.4.0/24`
 
-CIDR: 10.0.4.0/24
+---
 
-🌐 Step 4: Create & Attach Internet Gateway
+## 🌐 Step 4: Create & Attach Internet Gateway
 
-➡️ Internet Gateways → Create
+➡️ Internet Gateways → **Create**
 
-Name: my-ig
+* Name: `my-ig`
+* Attach to VPC: `My VPC`
 
-Attach to VPC: My VPC
+📌 *Allows internet communication for public subnets.*
 
-📌 Allows internet communication for public subnets.
+---
 
-🧭 Step 5: Create Public Route Table
+## 🧭 Step 5: Create Public Route Table
 
-➡️ Route Tables → Create
+➡️ Route Tables → **Create**
 
-Name: public-route-table
+* Name: `public-route-table`
+* VPC: `My VPC`
 
-VPC: My VPC
+### ➕ Add Route
 
-➕ Add Route
+* Destination: `0.0.0.0/0`
+* Target: `Internet Gateway (my-ig)`
 
-Destination: 0.0.0.0/0
+---
 
-Target: Internet Gateway (my-ig)
+## 🔗 Step 6: Associate Route Table
 
-🔗 Step 6: Associate Route Table
+➡️ Subnet associations → **Edit**
 
-➡️ Subnet associations → Edit
-
-✅ Public-subnet-1
-
-✅ Public-subnet-2
-
-💾 Save
+* ✅ `Public-subnet-1`
+* ✅ `Public-subnet-2`
+* 💾 Save
 
 ✔️ Public subnets → Internet access
 ❌ Private subnets → No internet route
 
-🔐 Step 7: Secure Network Traffic
+---
+
+## 🔐 Step 7: Secure Network Traffic
 
 🛡️ Traffic control is handled by:
 
-🔹 Security Groups → Instance-level firewall
+* 🔹 **Security Groups** → Instance-level firewall
+* 🔹 **Network ACLs** → Subnet-level firewall
+* 🔹 **CIDR blocks** → Define allowed IP ranges
 
-🔹 Network ACLs → Subnet-level firewall
+---
 
-🔹 CIDR blocks → Define allowed IP ranges
-
-🏗️ Final Architecture Summary
+## 🏗️ Final Architecture Summary
 
 ✔️ 1 VPC
 ✔️ 2 Public Subnets (Multi-AZ)
 ✔️ 2 Private Subnets (Multi-AZ)
 ✔️ Internet Gateway
 ✔️ Public Route Table
+
+
