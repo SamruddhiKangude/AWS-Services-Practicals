@@ -1,4 +1,4 @@
-# 🚀 React Portfolio Website – Deployed using AWS Amplify - https://main.d1rnqrmv31aa1i.amplifyapp.com/
+# 🚀 React Portfolio Website – Deployed using AWS Amplify
 
 This is a **personal portfolio website** built using modern web technologies and deployed on **AWS Amplify** with **CI/CD integration via GitHub**.  
 The website showcases my profile, skills, and projects with a responsive and user-friendly design.
